@@ -7,6 +7,8 @@ public class DataManager {
 	public static String basedir = "";
 
 	// implement Seralizable so that it can write and read in file
+	// however this is not required as we are not using file output stream not doing
+	// seralization and deserialzation
 	public static class DataRow implements Serializable {
 		public int RollNum;
 		public String Name;
@@ -245,9 +247,12 @@ public class DataManager {
 		try {
 			File file = new File(fileName);
 			BufferedWriter writer = new BufferedWriter(new FileWriter(file, true));
-			PrintWriter pwriter = new PrintWriter(writer);
-			pwriter.println(row);
-			pwriter.close();
+			// PrintWriter pwriter = new PrintWriter(writer);
+			// pwriter.println(row);
+			// pwriter.close();
+			writer.append(row);
+			writer.newLine();
+			writer.close();
 		} catch (Exception ex) {
 			System.out.println(ex);
 		}
@@ -257,8 +262,9 @@ public class DataManager {
 		File file = new File(fileName);
 
 		// file.length() return the length in byte form
+		// adding the current row
 		long byteSize = file.length() + row.toString().length();
-		// we have to check if page size has not exceeded 8kb or 8 * 1024
+		// we have to check if page size has not exceeded 8kb or 8 * 1024 bytes
 		return byteSize < 8 * 1024;
 	}
 
@@ -295,7 +301,7 @@ public class DataManager {
 	private static String getRandomWord() {
 		int length = (int) (Math.random() * 10) + 5;
 		StringBuilder sb = new StringBuilder();
-
+		// append in stringBuilder is less time consuming
 		for (int i = 0; i < length; i++) {
 			char ch = (char) ((int) (Math.random() * 26) + 'a');
 			sb.append(ch);

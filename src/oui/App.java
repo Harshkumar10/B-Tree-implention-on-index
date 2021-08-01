@@ -12,14 +12,17 @@ public class App extends JFrame {
 	QueryPanel queryPanel;
 
 	// constructor
-	public App() {
+	public App() throws InterruptedException {
 		tabPane = new JTabbedPane();
 		tabPane.setFont(new Font("Comic Sans MS", 1, 30));
 		tabPane.setBackground(Color.DARK_GRAY);
 		tabPane.setForeground(Color.WHITE);
 
+		// we have defined a constructor in the class homePanel and dataPanel
 		homePanel = new HomePanel(tabPane);
-		dataPanel = new DataPanel(tabPane);
+
+		dataPanel = new DataPanel();
+		tabPane.add("create data", dataPanel);
 		indexPanel = new IndexPanel(tabPane);
 		queryPanel = new QueryPanel(tabPane);
 
@@ -36,6 +39,10 @@ public class App extends JFrame {
 		super.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
 		// this will make the file visible
+
+		// just for experiment
+		super.setVisible(false);
+		Thread.sleep(1000);
 		super.setVisible(true);
 	}
 }

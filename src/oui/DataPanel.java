@@ -2,8 +2,6 @@ package oui;
 
 import java.awt.*;
 import javax.swing.*;
-import javax.swing.border.Border;
-
 import java.awt.event.*;
 
 public class DataPanel extends JPanel implements ActionListener {
@@ -14,12 +12,11 @@ public class DataPanel extends JPanel implements ActionListener {
 
 	// data panel is the observer
 	// jButton is under observation
-	public DataPanel(JTabbedPane tabPane) {
-		tabPane.addTab("Create Data", this);
-		initComponents();
+	public DataPanel() {
+		loadCompenents();
 	}
 
-	private void initComponents() {
+	private void loadCompenents() {
 		this.setBorder(BorderFactory.createMatteBorder(25, 25, 25, 25, Color.darkGray));
 		this.setBackground(new Color(0, 100, 0));
 
@@ -43,35 +40,10 @@ public class DataPanel extends JPanel implements ActionListener {
 		progressBar.setMaximum(100);
 		progressBar.setFont(new Font("Monospaced", 0, 50));
 
-		GroupLayout layout = new GroupLayout(this);
-		this.setLayout(layout);
-		layout.setHorizontalGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING).addGroup(layout
-				.createSequentialGroup().addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-				.addComponent(lblRows, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-				.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-				.addComponent(txtRows, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-				.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-				.addGroup(layout.createSequentialGroup().addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(btnCreate, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-								GroupLayout.PREFERRED_SIZE)
-						.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-				.addGroup(layout.createSequentialGroup().addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(progressBar, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-								GroupLayout.PREFERRED_SIZE)
-						.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
-		layout.setVerticalGroup(
-				layout.createSequentialGroup().addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-								.addComponent(txtRows, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-										GroupLayout.PREFERRED_SIZE)
-								.addComponent(lblRows, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-										GroupLayout.PREFERRED_SIZE))
-						.addGap(50, 50, 50)
-						.addComponent(btnCreate, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-								GroupLayout.PREFERRED_SIZE)
-						.addGap(50, 50, 50).addComponent(progressBar, GroupLayout.PREFERRED_SIZE,
-								GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE));
+		this.add(lblRows);
+		this.add(txtRows);
+		this.add(btnCreate);
+		this.add(progressBar);
 
 	}
 
@@ -84,10 +56,14 @@ public class DataPanel extends JPanel implements ActionListener {
 			public void run() {
 				try {
 					int rows = Integer.parseInt(txtRows.getText());
+					// passing the obj so that it can change the progressBar value
 					DataManager.CreateData(rows, obj);
 					JOptionPane.showMessageDialog(obj, "Data created successfully");
 					progressBar.setValue(0);
 				} catch (Exception ex) {
+					JOptionPane.showMessageDialog(obj, "Some execption has occured try again" + ex);
+					System.out.println("Exception occured in Datapanel:" + ex);
+					progressBar.setValue(0);
 				}
 			}
 		});
