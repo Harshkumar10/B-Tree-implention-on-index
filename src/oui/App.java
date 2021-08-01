@@ -34,6 +34,8 @@ public class App extends JFrame {
 		// this is close the JVM on the click the close button
 		// JVM plays the Java program
 		super.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+
+		// this will make the file visible
 		super.setVisible(true);
 	}
 }
